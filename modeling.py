@@ -78,10 +78,10 @@ class EncoderLayer(nn.Module):
     def __init__(self, config):
         super(EncoderLayer, self).__init__()
         self.config = config
+        
+        self.multi_head_attention = MultiHeadAttention(config.hidden_size, config.num_attention_heads, config.hidden_dropout_prob, config.max_position_embeddings)
 
-        self.multi_head_attention = MultiHeadAttention(config.hidden_size, config.num_head, config.hidden_dropout_prob, config.seq_len)
-
-        self.feed_forward = self.feed_forward_layer(config.d_model, config.ffn_size)
+        self.feed_forward = self.feed_forward_layer(config.hidden_size, config.intermediate_size)
 
         self.layer_norm = nn.LayerNorm(config.hidden_size,eps=1e-12)
 
